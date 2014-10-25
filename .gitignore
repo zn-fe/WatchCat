@@ -1,4 +1,8 @@
 /node_modules/
+/config/*.js
+/config/*.json
+!/config/*-sample.js
+!/config/*-sample.json
 
 *.rebooted
 *.sublime-*

@@ -1,0 +1,12 @@
+{
+    "alpha": {
+        "id": "id-alpha",
+        "name": "name-alpha",
+        "desc": "desc-alpha"
+    },
+    "beta": {
+        "id": "id-beta",
+        "name": "name-beta",
+        "desc": "desc-beta"
+    }
+}
