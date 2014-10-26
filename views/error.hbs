@@ -1,3 +1,6 @@
-<h1>{{message}}</h1>
-<h2>{{error.status}}</h2>
-<pre>{{error.stack}}</pre>
+<ul class="table-view">
+    <li class="table-view-cell">
+        <pre>Status code: {{ error.status }}</pre>
+        <pre>{{ error.stack }}</pre>
+    </li>
+</ul>
