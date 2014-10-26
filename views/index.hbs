@@ -1,2 +1,7 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<ul class="table-view">
+    {{#each rooms }}
+    <li class="table-view-cell">
+        <a class="navigate-right" href="/room/{{ key }}" data-transition="slide-in">{{ name }}</a>
+    </li>
+    {{/each}}
+</ul>

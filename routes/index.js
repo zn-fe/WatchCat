@@ -3,7 +3,10 @@ var router = express.Router();
 
 var google = require('googleapis');
 
+var _ = require('lodash');
+
 var config = require('../config');
+var meetingRooms = require('../config/meetingrooms.json');
 
 var authClient = new google.auth.JWT(
     config.serviceAccount.email,
@@ -21,10 +24,11 @@ authClient.authorize(function (error, tokens) {
 });
 
 router.get('/', function (req, res) {
-    //
-
     res.render('index', {
-        title: 'Express'
+        title: 'Wandou Meetings',
+        rooms: _.sortBy(meetingRooms, function (room) {
+            return room.name;
+        })
     });
 });
 
