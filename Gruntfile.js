@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                 tasks: [
                     'nodemon',
                     'node-inspector',
-                    'watch'
+                    // 'watch'
                 ],
                 options: {
                     logConcurrentOutput: true
