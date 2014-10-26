@@ -1,4 +1,5 @@
 /node_modules/
+/public/components/
 /config/*.js
 /config/*.json
 !/config/*-sample.js
