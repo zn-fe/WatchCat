@@ -125,7 +125,7 @@ router.get('/room/:name', function (req, res, next) {
         calendar.events.list({
             auth: authClient,
             calendarId: room.id,
-            fields: 'items(attendees,attendeesOmitted,creator,description,end,id,organizer,start,summary)',
+            fields: 'items(end,organizer,start,summary)',
             orderBy: 'startTime',
             singleEvents: true,
             // timeMin: '2014-10-24T00:00:00+08:00',
