@@ -1,0 +1,23 @@
+<ul class="table-view">
+    {{#if events.length }}
+    {{#each events }}
+    <li class="table-view-cell">
+        <div class="media-object pull-left">
+            <strong>{{ moment start.dateTime format='HH:mm'}}</strong>
+            <p>{{ moment end.dateTime format='HH:mm'}}</p>
+        </div>
+        <div class="media-body">
+            <div class="truncation">{{ summary }}</div>
+            <p>{{ organizer.displayName }}</p>
+        </div>
+    </li>
+    {{/each}}
+    {{else}}
+    <li class="table-view-cell">No meeting today</li>
+    {{/if}}
+
+    <li class="table-view-divider"></li>
+    <li class="table-view-cell">
+        <a class="navigate-right" href="/room/available" data-transition="slide-in">Available meeting rooms</a>
+    </li>
+</ul>
