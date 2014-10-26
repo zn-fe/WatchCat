@@ -48,7 +48,7 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/room/available', function (req, res) {
+router.get('/room/available', function (req, res, next) {
     async.waterfall([function (callback) {
         var debug = false;
         debug = true;
@@ -76,8 +76,6 @@ router.get('/room/available', function (req, res) {
                 timeZone: 'Asia/Shanghai'
             }
         }, function (error, resp) {
-            console.log(resp);
-
             if (error) {
                 return callback(error.message);
             }
@@ -150,12 +148,6 @@ router.get('/room/:name', function (req, res, next) {
             if (error) {
                 return callback(error.message);
             }
-
-            // require('fs').writeFile('config/events.json', JSON.stringify(resp.items), function (fsError) {
-            //     if (fsError) {
-            //         return callback(fsError);
-            //     }
-            // });
 
             callback(null, resp.items);
         });
