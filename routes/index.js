@@ -11,6 +11,7 @@ var _ = require('lodash');
 var config = require('../config');
 var meetingRooms = require('../config/meetingrooms.json');
 
+var authTokens = {};
 var authClient = new google.auth.JWT(
     config.serviceAccount.email,
     config.serviceAccount.keyFilePath,
@@ -19,11 +20,23 @@ var authClient = new google.auth.JWT(
     'netputer@wandoujia.com'
 );
 
-authClient.authorize(function (error, tokens) {
-    if (error) {
-        console.error('Authorize Error', error);
-        return;
+router.use(function (req, res, next) {
+    var now = Date.now();
+
+    if (authTokens.expiry_date && authTokens.expiry_date - 300 > Date.now()) {
+        return next();
     }
+
+    authClient.authorize(function (error, tokens) {
+        if (error) {
+            var err = new Error(error.error);
+            err.status = 400;
+            return next(err);
+        }
+
+        authTokens = tokens;
+        next();
+    });
 });
 
 router.get('/', function (req, res) {
