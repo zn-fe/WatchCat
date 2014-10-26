@@ -160,4 +160,19 @@ router.get('/room/:name', function (req, res, next) {
     });
 });
 
+router.get('/book/:name', function (req, res, next) {
+    var name = req.params.name.toLowerCase();
+    var room = meetingRooms[name];
+
+    if (!room) {
+        var err = new Error('Not Found');
+        err.status = 404;
+        return next(err);
+    }
+
+    return res.render('book', {
+        title: 'Booking ' + room.name
+    });
+});
+
 module.exports = router;
