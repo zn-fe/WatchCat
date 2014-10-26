@@ -184,4 +184,105 @@ router.get('/book/:name', function (req, res, next) {
     });
 });
 
+router.post('/api/book/:name', function (req, res, next) {
+    var name = req.params.name.toLowerCase();
+    var room = meetingRooms[name];
+
+    if (!room) {
+        return res.status(404).json({
+            message: 'Not Found',
+            status: 404
+        });
+    }
+
+    if (!req.params.username || !req.params.summary) {
+        return res.status(403).json({
+            message: 'Missing parameters',
+            status: 403
+        });
+    }
+
+    var email = req.params.username.split('@')[0] + '@' + config.fetcher.domain;
+    var summary = req.params.summary;
+    var timeStart = moment().format();
+    var timeEnd = moment().add(30, 'm').format();
+
+    async.waterfall([function (callback) {
+        calendar.freebusy.query({
+            auth: authClient,
+            fields: 'calendars',
+            resource: {
+                items: [{
+                    id: room.id
+                }],
+                timeMin: timeStart,
+                timeMax: timeEnd,
+                timeZone: 'Asia/Shanghai'
+            }
+        }, function (error, resp) {
+            if (error) {
+                return callback(error.message);
+            }
+
+            var calendars = resp.calendars;
+
+            if (calendars[room.id].busy.length > 0) {
+                return callback('Meeting room has been reserved');
+            }
+
+            callback(null);
+        });
+    }, function (callback) {
+        var personalAuthClient = getAuthClient(email);
+
+        personalAuthClient.authorize(function (error, tokens) {
+            if (error) {
+                return callback(error.error);
+            }
+
+            callback(null, personalAuthClient);
+        });
+    }, function (personalAuthClient, callback) {
+        calendar.events.insert({
+            auth: personalAuthClient,
+            calendarId: email,
+            fields: 'attendees,end,organizer,start,summary',
+            sendNotifications: true,
+            resource: {
+                summary: summary,
+                location: room.name,
+                attendees: [{
+                    email: room.id
+                }, {
+                    email: email,
+                    responseStatus: 'accepted'
+                }],
+                start: {
+                    dateTime: timeStart,
+                    timeZone: 'Asia/Shanghai'
+                },
+                end: {
+                    dateTime: timeEnd,
+                    timeZone: 'Asia/Shanghai'
+                }
+            },
+        }, function (error, resp) {
+            if (error) {
+                return callback(error);
+            }
+
+            callback(null, resp);
+        });
+    }], function (error, resp) {
+        if (error) {
+            return res.status(500).json({
+                message: error,
+                status: 500
+            });
+        }
+
+        res.json(resp);
+    });
+});
+
 module.exports = router;
