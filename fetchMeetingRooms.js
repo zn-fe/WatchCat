@@ -71,6 +71,7 @@ async.waterfall([
 
             result[name] = {
                 id: item.resourceEmail,
+                key: name,
                 name: item.resourceCommonName,
                 desc: item.resourceDescription
             };
