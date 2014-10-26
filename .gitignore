@@ -4,6 +4,8 @@
 /config/*.json
 !/config/*-sample.js
 !/config/*-sample.json
+/config/*.p12
+/config/*.pem
 
 *.rebooted
 *.sublime-*
