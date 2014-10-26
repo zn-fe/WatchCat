@@ -91,7 +91,7 @@ router.get('/room/available', function (req, res, next) {
         });
 
         _.each(calendars, function (room, key) {
-            if (room.busy.length === 0) {
+            if (!room.errors && room.busy.length === 0) {
                 result.push(roomReindex[key]);
             }
         });
