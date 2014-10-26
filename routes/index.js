@@ -11,14 +11,18 @@ var _ = require('lodash');
 var config = require('../config');
 var meetingRooms = require('../config/meetingrooms.json');
 
+var getAuthClient = function (email) {
+    return new google.auth.JWT(
+        config.serviceAccount.email,
+        config.serviceAccount.keyFilePath,
+        config.serviceAccount.key,
+        config.serviceAccount.scopes,
+        email
+    );
+};
+
+var authClient = getAuthClient('noreply@wandoujia.com');
 var authTokens = {};
-var authClient = new google.auth.JWT(
-    config.serviceAccount.email,
-    config.serviceAccount.keyFilePath,
-    config.serviceAccount.key,
-    config.serviceAccount.scopes,
-    'netputer@wandoujia.com'
-);
 
 router.use(function (req, res, next) {
     var now = Date.now();
