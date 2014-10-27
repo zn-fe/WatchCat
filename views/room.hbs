@@ -1,14 +1,14 @@
 <ul class="table-view">
-    {{#if events.length }}
-    {{#each events }}
+    {{#if events.length}}
+    {{#each events}}
     <li class="table-view-cell">
         <div class="media-object pull-left">
-            <strong>{{ moment start.dateTime format='HH:mm'}}</strong>
-            <p>{{ moment end.dateTime format='HH:mm'}}</p>
+            <strong>{{moment start.dateTime format='HH:mm'}}</strong>
+            <p>{{moment end.dateTime format='HH:mm'}}</p>
         </div>
         <div class="media-body">
-            <div class="truncation">{{ summary }}</div>
-            <p>{{ organizer.displayName }}</p>
+            <div class="truncation">{{summary}}</div>
+            <p>{{organizer.displayName}}</p>
         </div>
     </li>
     {{/each}}
