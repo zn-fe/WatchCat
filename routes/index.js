@@ -55,7 +55,7 @@ router.get('/', function (req, res) {
 router.get('/room/available', function (req, res, next) {
     async.waterfall([function (callback) {
         var debug = false;
-        debug = true;
+        // debug = true;
 
         if (!!debug) {
             return callback(null, require('../config/available.json'));
@@ -131,7 +131,7 @@ router.get('/room/:name', function (req, res, next) {
 
     async.waterfall([function (callback) {
         var debug = false;
-        debug = true;
+        // debug = true;
 
         if (debug) {
             return callback(null, require('../config/events.json'));
