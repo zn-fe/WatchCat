@@ -1,8 +1,8 @@
 {
-  "name": "meeting",
+  "name": "WatchCat",
   "version": "0.0.0",
   "authors": [
-    "NetPuter <netputer@gmail.com>"
+    "NetPuter <netputer@wandoujia.com>"
   ],
   "license": "MIT",
   "ignore": [
