@@ -45,7 +45,7 @@ router.use(function (req, res, next) {
 
 router.get('/', function (req, res) {
     res.render('index', {
-        title: 'Wandou Meetings',
+        title: 'All',
         rooms: _.sortBy(meetingRooms, function (room) {
             return room.name;
         })
