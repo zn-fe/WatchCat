@@ -1,0 +1,14 @@
+.truncation {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.media-object {
+    text-align: right;
+}
+
+.copyright {
+    color: rgba(0, 0, 0, .1);
+    text-align: center;
+}

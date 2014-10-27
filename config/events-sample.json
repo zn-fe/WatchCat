@@ -1,0 +1,13 @@
+[{
+    "summary":"summary",
+    "organizer": {
+        "email": "alpha@wandoujia.com",
+        "displayName": "Alpha Lin"
+    },
+    "start": {
+        "dateTime": "2014-10-24T11:00:00+08:00"
+    },
+    "end": {
+        "dateTime": "2014-10-24T12:00:00+08:00"
+    }
+}]

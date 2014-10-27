@@ -1,0 +1,11 @@
+/node_modules/
+/public/components/
+/config/*.js
+/config/*.json
+!/config/*-sample.js
+!/config/*-sample.json
+/config/*.p12
+/config/*.pem
+
+*.rebooted
+*.sublime-*
