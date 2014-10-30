@@ -24,7 +24,14 @@ var getAuthClient = function (email) {
 var authClient = getAuthClient('noreply@wandoujia.com');
 var authTokens = {};
 
+var debug = false;
+// debug = true;
+
 router.use(function (req, res, next) {
+    if (debug) {
+        return next();
+    }
+
     var now = Date.now();
 
     if (authTokens.expiry_date && authTokens.expiry_date - 300 > Date.now()) {
@@ -54,9 +61,6 @@ router.get('/', function (req, res) {
 
 router.get('/room/available', function (req, res, next) {
     async.waterfall([function (callback) {
-        var debug = false;
-        // debug = true;
-
         if (!!debug) {
             return callback(null, require('../config/available.json'));
         }
@@ -130,9 +134,6 @@ router.get('/room/:name', function (req, res, next) {
     }
 
     async.waterfall([function (callback) {
-        var debug = false;
-        // debug = true;
-
         if (debug) {
             return callback(null, require('../config/events.json'));
         }
