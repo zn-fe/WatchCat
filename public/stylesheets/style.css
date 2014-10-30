@@ -12,3 +12,63 @@
     color: rgba(0, 0, 0, .1);
     text-align: center;
 }
+
+.wc-input-row {
+    margin: -11px -65px -11px -15px;
+    overflow: hidden;
+    height: auto;
+}
+
+.wc-input-row label,
+.wc-input-addon {
+    padding: 11px 15px;
+}
+
+.wc-input-row input,
+.wc-input-group {
+    float: right;
+    width: 75%;
+}
+
+.wc-input-row label {
+    width: 25%;
+}
+
+.wc-input-row input {
+    margin-bottom: 0;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 0;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.wc-input-group {
+    display: table;
+}
+
+.wc-input-group input {
+    float: none;
+    width: 100%;
+    padding-right: 0;
+}
+
+.wc-input-addon {
+    display: table-cell;
+    padding-left: 0;
+    width: 120px;
+}
+
+.wc-badge {
+    padding: 0 9px;
+    color: #A9A9A9;
+    font-size: inherit;
+    background-color: transparent;
+}
+
+.wc-btn-link {
+    color: #007aff !important;
+}
