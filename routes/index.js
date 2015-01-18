@@ -196,15 +196,15 @@ router.post('/api/book/:name', function (req, res, next) {
         });
     }
 
-    if (!req.params.username || !req.params.summary) {
+    if (!req.body.username || !req.body.summary) {
         return res.status(403).json({
             message: 'Missing parameters',
             status: 403
         });
     }
 
-    var email = req.params.username.split('@')[0] + '@' + config.fetcher.domain;
-    var summary = req.params.summary;
+    var email = req.body.username.split('@')[0] + '@' + config.fetcher.domain;
+    var summary = req.body.summary;
     var timeStart = moment().format();
     var timeEnd = moment().add(30, 'm').format();
 
@@ -228,7 +228,7 @@ router.post('/api/book/:name', function (req, res, next) {
             var calendars = resp.calendars;
 
             if (calendars[room.id].busy.length > 0) {
-                return callback('Meeting room has been reserved');
+                return callback('The meeting room has been booked');
             }
 
             callback(null);

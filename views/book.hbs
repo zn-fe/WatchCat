@@ -3,7 +3,7 @@
         <div class="input-row wc-input-row">
             <label>Who</label>
             <div class="wc-input-group">
-                <input type="text" placeholder="Username">
+                <input type="text" placeholder="Username" id="js-input-username">
                 <span class="wc-input-addon">@wandoujia.com</span>
             </div>
         </div>
@@ -11,14 +11,30 @@
     <li class="table-view-cell">
         <div class="input-row wc-input-row">
             <label>What</label>
-            <input type="text" placeholder="Event description">
+            <input type="text" placeholder="Meeting description" id="js-input-description">
         </div>
     </li>
     <li class="table-view-cell">
-        <a class="navigate-right">When <span class="badge wc-badge">12:00</span></a>
+        Duration <span class="badge wc-badge">30 mins</span>
     </li>
     <li class="table-view-cell table-view-divider"></li>
     <li class="table-view-cell wc-table-view-cell">
-        <a class="btn-link wc-btn-link">Book</a>
+        <a class="btn-link wc-btn-link disabled" id="js-btn-book">Book</a>
     </li>
 </ul>
+
+<div id="js-modal-status" class="modal wc-modal-status wc-modal-loading 1active">
+    <header class="bar bar-nav wc-bar-nav">
+        <a class="btn btn-link pull-left" href="#js-modal-status">Close</a>
+        <h1 class="title">Booking Status</h1>
+    </header>
+
+    <div class="content">
+        <div class="wc-spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <p class="content-padded">Please wait...</p>
+    </div>
+</div>

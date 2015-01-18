@@ -13,6 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "ratchet": "twbs/ratchet#~2.0.2"
+    "ratchet": "twbs/ratchet#~2.0.2",
+    "zepto": "~1.1.6"
   }
 }
