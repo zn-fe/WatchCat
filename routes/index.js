@@ -166,9 +166,30 @@ router.get('/room/:name', function (req, res, next) {
             return next(err);
         }
 
+        var availableText = ''; // Empty means busy, else means available
+
+        if (events.length === 0) {
+            availableText = 'all day';
+        } else {
+            var momentNow = moment();
+            var momentFirstEventStart = moment(events[0].start.dateTime);
+            var diff = momentFirstEventStart - momentNow;
+
+            if (diff > 0) {
+                var type = 'minutes';
+
+                if (diff > 3600000) {
+                    type = 'hours';
+                }
+
+                availableText = Math.floor(momentFirstEventStart.diff(momentNow, type, true)) + ' ' + type;
+            }
+        }
+
         res.render('room', {
             title: room.name,
-            events: events
+            events: events,
+            availableText: availableText
         });
     });
 });
