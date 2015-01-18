@@ -40,6 +40,7 @@ router.use(function (req, res, next) {
 
     authClient.authorize(function (error, tokens) {
         if (error) {
+            console.error('GlobalAuth error', error);
             var err = new Error(error.error);
             err.status = 400;
             return next(err);
@@ -85,6 +86,7 @@ router.get('/room/available', function (req, res, next) {
             }
         }, function (error, resp) {
             if (error) {
+                console.error('RoomsFreeBusy error', error);
                 return callback(error.message);
             }
 
@@ -151,6 +153,7 @@ router.get('/room/:name', function (req, res, next) {
             timeZone: 'Asia/Shanghai'
         }, function (error, resp) {
             if (error) {
+                console.error('RoomEvents error', error);
                 return callback(error.message);
             }
 
@@ -222,6 +225,7 @@ router.post('/api/book/:name', function (req, res, next) {
             }
         }, function (error, resp) {
             if (error) {
+                console.error('RoomFreeBusy error', error);
                 return callback(error.message);
             }
 
@@ -238,6 +242,7 @@ router.post('/api/book/:name', function (req, res, next) {
 
         personalAuthClient.authorize(function (error, tokens) {
             if (error) {
+                console.error('BookAuth error', error);
                 return callback(error.error);
             }
 
@@ -269,6 +274,7 @@ router.post('/api/book/:name', function (req, res, next) {
             },
         }, function (error, resp) {
             if (error) {
+                console.error('RoomEventInsert error', error);
                 return callback(error);
             }
 
