@@ -24,7 +24,14 @@ var getAuthClient = function (email) {
 var authClient = getAuthClient('noreply@wandoujia.com');
 var authTokens = {};
 
+var debug = false;
+// debug = true;
+
 router.use(function (req, res, next) {
+    if (debug) {
+        return next();
+    }
+
     var now = Date.now();
 
     if (authTokens.expiry_date && authTokens.expiry_date - 300 > Date.now()) {
@@ -33,6 +40,7 @@ router.use(function (req, res, next) {
 
     authClient.authorize(function (error, tokens) {
         if (error) {
+            console.error('GlobalAuth error', error);
             var err = new Error(error.error);
             err.status = 400;
             return next(err);
@@ -54,9 +62,6 @@ router.get('/', function (req, res) {
 
 router.get('/room/available', function (req, res, next) {
     async.waterfall([function (callback) {
-        var debug = false;
-        // debug = true;
-
         if (!!debug) {
             return callback(null, require('../config/available.json'));
         }
@@ -81,6 +86,7 @@ router.get('/room/available', function (req, res, next) {
             }
         }, function (error, resp) {
             if (error) {
+                console.error('RoomsFreeBusy error', error);
                 return callback(error.message);
             }
 
@@ -130,9 +136,6 @@ router.get('/room/:name', function (req, res, next) {
     }
 
     async.waterfall([function (callback) {
-        var debug = false;
-        // debug = true;
-
         if (debug) {
             return callback(null, require('../config/events.json'));
         }
@@ -150,6 +153,7 @@ router.get('/room/:name', function (req, res, next) {
             timeZone: 'Asia/Shanghai'
         }, function (error, resp) {
             if (error) {
+                console.error('RoomEvents error', error);
                 return callback(error.message);
             }
 
@@ -162,9 +166,30 @@ router.get('/room/:name', function (req, res, next) {
             return next(err);
         }
 
+        var availableText = ''; // Empty means busy, else means available
+
+        if (events.length === 0) {
+            availableText = 'all day';
+        } else {
+            var momentNow = moment();
+            var momentFirstEventStart = moment(events[0].start.dateTime);
+            var diff = momentFirstEventStart - momentNow;
+
+            if (diff > 0) {
+                var type = 'minutes';
+
+                if (diff > 3600000) {
+                    type = 'hours';
+                }
+
+                availableText = Math.floor(momentFirstEventStart.diff(momentNow, type, true)) + ' ' + type;
+            }
+        }
+
         res.render('room', {
             title: room.name,
-            events: events
+            events: events,
+            availableText: availableText
         });
     });
 });
@@ -195,15 +220,15 @@ router.post('/api/book/:name', function (req, res, next) {
         });
     }
 
-    if (!req.params.username || !req.params.summary) {
+    if (!req.body.username || !req.body.summary) {
         return res.status(403).json({
             message: 'Missing parameters',
             status: 403
         });
     }
 
-    var email = req.params.username.split('@')[0] + '@' + config.fetcher.domain;
-    var summary = req.params.summary;
+    var email = req.body.username.split('@')[0] + '@' + config.fetcher.domain;
+    var summary = req.body.summary;
     var timeStart = moment().format();
     var timeEnd = moment().add(30, 'm').format();
 
@@ -221,13 +246,14 @@ router.post('/api/book/:name', function (req, res, next) {
             }
         }, function (error, resp) {
             if (error) {
+                console.error('RoomFreeBusy error', error);
                 return callback(error.message);
             }
 
             var calendars = resp.calendars;
 
             if (calendars[room.id].busy.length > 0) {
-                return callback('Meeting room has been reserved');
+                return callback('The meeting room has been booked');
             }
 
             callback(null);
@@ -237,6 +263,7 @@ router.post('/api/book/:name', function (req, res, next) {
 
         personalAuthClient.authorize(function (error, tokens) {
             if (error) {
+                console.error('BookAuth error', error);
                 return callback(error.error);
             }
 
@@ -268,6 +295,7 @@ router.post('/api/book/:name', function (req, res, next) {
             },
         }, function (error, resp) {
             if (error) {
+                console.error('RoomEventInsert error', error);
                 return callback(error);
             }
 
